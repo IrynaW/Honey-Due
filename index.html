@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gelasio:wght@400;500;600&family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <title>Home Due</title>
+</head>
+<body>
+<header>
+    <a href="index.html" class="logo"><img src="img/logo.svg" alt="logo"/></a>
+    <nav>
+        <a href='#'>About Us</a>
+        <a href='#'>Services</a>
+        <div class="search">
+            <input type="text" placeholder="DIY Search" class="search-input">
+            <button><img src="img/search.svg" alt="search"></button>
+        </div>
+        <img src="img/notifications.svg" alt="notifications" class="notifications">
+    </nav>
+</header>
+<main>
+    <div class="first-main-column">
+        <div class="home-container">
+            <img src="img/house.svg" alt="house">
+            <div class="home-text">
+                <h3>My Home</h3>
+                <p>Overall Upkeep: <span>73%</span></p>
+                <button class="button">VIEW PROFILE</button>
+            </div>
+        </div>
+        <div class="appliances">
+            <h3 class="appliances-title">My Appliances</h3>
+            <div class="icons">
+                <div class="first-row">
+                    <img src="img/sink.svg" alt="sink">
+                    <img src="img/toilet.svg" alt="toilet">
+                    <img src="img/shower.svg" alt="shower">
+                    <img src="img/vacuum.svg" alt="vacuum">
+                </div>
+                <div class="second-row">
+                    <img src="img/water heater.svg" alt="water heater">
+                    <img src="img/dishwasher.svg" alt="dishwasher">
+                    <img src="img/ac.svg" alt="ac">
+                    <img src="img/fridge.svg" alt="fridge">
+                </div>
+                <div class="plus-button">
+                    <img src="img/plus-button.svg" alt="plus-button" id="plus-button">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="second-main-column">
+        <div id="overlay"></div>
+        <div class="date-container">
+            <p class="title-date">Today:</p>
+            <div class="text-date">
+                <span id="day"></span>
+                <p class="date" id="fullDate"></p>
+            </div>
+            <img src="img/calendar-button.svg" alt="calendar-button" id="popup-trigger">
+            <div class="popup" id="popup">
+                <img src="img/Calendar.png" alt="Calendar">
+            </div>
+        </div>
+        <div class="calendar-container">
+            <h3 class="calendar-text">Upcoming This Month</h3>
+            <img src="img/notes.png" alt="notes">
+            <button class="button">NEW SCHEDULE</button>
+        </div>
+    </div>
+</main>
+<footer>
+    <div class="footer-content">
+        <ul>
+            <li>Services</li>
+            <li>DIY Search</li>
+        </ul>
+        <ul>
+            <li>View Profile</li>
+            <li>My Appliances</li>
+        </ul>
+        <div>
+            <p>About Us</p>
+            <div class="socials">
+                <img src="img/instagram.svg" alt="instagram">
+                <img src="img/facebook.svg" alt="facebook">
+                <img src="img/twitter.svg" alt="twitter">
+            </div>
+        </div>
+        <div class="email-container">
+            <label>Subscribe for home maintenance notifications</label>
+            <div class="email-input">
+                <input type="text" placeholder="Enter Email" class="enter-email">
+                <button><img src="img/arrow-down.svg" alt="arrow-down"></button>
+            </div>
+        </div>
+    </div>
+    <p class="copyright">2024 &copy; Honey Due</p>
+</footer>
+
+<script>
+    const currentDate = new Date();
+    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const dayOfWeek = daysOfWeek[currentDate.getDay()];
+    const fullDate = currentDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+
+    document.getElementById('day').textContent = dayOfWeek.toUpperCase();
+    document.getElementById('fullDate').textContent = fullDate;
+
+    const popup = document.getElementById('popup');
+    const popupTrigger = document.getElementById('popup-trigger');
+    const closePopup = new Image();
+    closePopup.src = 'img/close-button.svg';
+    closePopup.id = 'close-button';
+
+    const overlay = document.getElementById('overlay');
+
+    const plusButton = document.getElementById('plus-button');
+
+    plusButton.addEventListener('mouseover', function () {
+        plusButton.src = 'img/plus-hover.svg';
+    });
+    
+    plusButton.addEventListener('mouseout', function () {
+        plusButton.src = 'img/plus-button.svg';
+    });
+
+    closePopup.addEventListener('mouseover', function () {
+        closePopup.src = 'img/calendar-close-hover.svg';
+    });
+
+    closePopup.addEventListener('mouseout', function () {
+        closePopup.src = 'img/close-button.svg';
+    });
+
+    popupTrigger.addEventListener('mouseover', function () {
+        popupTrigger.src = 'img/calendar-hover.svg';
+    });
+    
+    popupTrigger.addEventListener('mouseout', function () {
+        popupTrigger.src = 'img/calendar-button.svg'
+    });
+
+    popupTrigger.addEventListener('click', function () {
+        const rect = popupTrigger.getBoundingClientRect();
+
+        const popupWidth = popup.offsetWidth;
+
+        overlay.style.display = 'block';
+        popup.style.top = rect.top + 50 + 'px';
+        popup.style.left = rect.left - popupWidth - 420 + 'px';
+        popup.style.display = 'block';
+        popupTrigger.replaceWith(closePopup);
+    });
+
+    closePopup.addEventListener('click', function () {
+        popup.style.display = 'none';
+        overlay.style.display = 'none';
+        closePopup.replaceWith(popupTrigger);
+    });
+</script>
+</body>
+</html>
